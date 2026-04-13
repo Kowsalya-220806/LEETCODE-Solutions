@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        // charIndex stores the last seen position of each character
+        vector<int> charIndex(128, -1); 
+        int maxLength = 0;
+        int left = 0; // Left boundary of the sliding window
+        
+        for (int right = 0; right < s.length(); ++right) {
+            // If the character was seen before and is inside the current window
+            if (charIndex[s[right]] >= left) {
+                // Move the left boundary to the right of the last occurrence
+                left = charIndex[s[right]] + 1;
+            }
+            
+            // Update the last seen index of the current character
+            charIndex[s[right]] = right;
+            
+            // Calculate the current window size and update maxLength
+            maxLength = max(maxLength, right - left + 1);
+        }
+        
+        return maxLength;
+    }
+};
