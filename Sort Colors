@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int low = 0;           // Pointer for the next 0
+        int mid = 0;           // Current element
+        int high = nums.size() - 1; // Pointer for the next 2
+
+        while (mid <= high) {
+            if (nums[mid] == 0) {
+                // If it's a 0, swap it to the front and move both pointers
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            } 
+            else if (nums[mid] == 1) {
+                // If it's a 1, it's already in the right general area, just move mid
+                mid++;
+            } 
+            else { // nums[mid] == 2
+                // If it's a 2, swap it to the back. 
+                // Don't increment mid yet, as we need to check the new nums[mid].
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+};
