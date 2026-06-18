@@ -1,0 +1,24 @@
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        if (!head) return nullptr;
+        if (!head->next) return new TreeNode(head->val);
+
+        // Find middle and track the node before it to disconnect the list
+        ListNode *slow = head, *fast = head, *prev = nullptr;
+        while (fast && fast->next) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // 'slow' is now the middle; disconnect the left half
+        if (prev) prev->next = nullptr;
+
+        TreeNode* root = new TreeNode(slow->val);
+        root->left = sortedListToBST(head);      // Left half (head to prev)
+        root->right = sortedListToBST(slow->next); // Right half (slow->next onwards)
+        
+        return root;
+    }
+};
