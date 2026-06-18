@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if (intervals.empty()) return {};
+
+        // Sort intervals by start time
+        sort(intervals.begin(), intervals.end());
+
+        vector<vector<int>> merged;
+        for (const auto& interval : intervals) {
+            // If merged is empty or no overlap, add current interval
+            if (merged.empty() || interval[0] > merged.back()[1]) {
+                merged.push_back(interval);
+            } 
+            // If there is an overlap, merge by updating the end time
+            else {
+                merged.back()[1] = max(merged.back()[1], interval[1]);
+            }
+        }
+
+        return merged;
+    }
+};
