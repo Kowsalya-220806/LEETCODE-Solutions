@@ -1,0 +1,33 @@
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        // Dummy nodes to simplify the logic for empty partitions
+        ListNode before_head(0);
+        ListNode after_head(0);
+        
+        // Pointers to the current ends of our two partitions
+        ListNode* before = &before_head;
+        ListNode* after = &after_head;
+        
+        while (head != nullptr) {
+            if (head->val < x) {
+                // Link current node to the 'before' partition
+                before->next = head;
+                before = before->next;
+            } else {
+                // Link current node to the 'after' partition
+                after->next = head;
+                after = after->next;
+            }
+            head = head->next;
+        }
+        
+        // Terminate the 'after' list to prevent cycles
+        after->next = nullptr;
+        
+        // Connect the 'before' partition to the 'after' partition
+        before->next = after_head.next;
+        
+        return before_head.next;
+    }
+};
