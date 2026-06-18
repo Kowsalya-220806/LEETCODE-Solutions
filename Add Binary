@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        string res = "";
+        int i = a.length() - 1;
+        int j = b.length() - 1;
+        int carry = 0;
+
+        while (i >= 0 || j >= 0 || carry) {
+            // Get the current digits (or 0 if the string is exhausted)
+            int digitA = (i >= 0) ? a[i--] - '0' : 0;
+            int digitB = (j >= 0) ? b[j--] - '0' : 0;
+
+            int sum = digitA + digitB + carry;
+            
+            // In binary: 0+0=0, 1+0=1, 1+1=0 (carry 1), 1+1+1=1 (carry 1)
+            res += to_string(sum % 2); 
+            carry = sum / 2;
+        }
+
+        // The result was built backwards, so reverse it
+        reverse(res.begin(), res.end());
+        return res;
+    }
+};
