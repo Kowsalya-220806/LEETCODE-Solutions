@@ -1,0 +1,40 @@
+class Solution {
+private:
+    TreeNode* first = nullptr;
+    TreeNode* second = nullptr;
+    TreeNode* prev = nullptr;
+
+    void inorder(TreeNode* root) {
+        if (!root) return;
+
+        inorder(root->left);
+
+        // If this isn't the first node, check for a BST violation
+        if (prev != nullptr && prev->val > root->val) {
+            // The first violation's 'first' node is always the larger one (prev)
+            if (first == nullptr) {
+                first = prev;
+            }
+            // The second node is always the smaller one (root)
+            // We keep updating 'second' in case there are two violations
+            second = root;
+        }
+        
+        // Update prev for the next step in traversal
+        prev = root;
+
+        inorder(root->right);
+    }
+
+public:
+    void recoverTree(TreeNode* root) {
+        inorder(root);
+        
+        // Swap the values of the two identified nodes
+        if (first && second) {
+            int temp = first->val;
+            first->val = second->val;
+            second->val = temp;
+        }
+    }
+};
