@@ -1,0 +1,34 @@
+class Solution {
+public:
+    int postIdx;
+    unordered_map<int, int> inMap;
+
+    TreeNode* build(vector<int>& postorder, int left, int right) {
+        if (left > right) return nullptr;
+
+        // The root is the last element in the current postorder segment
+        int rootVal = postorder[postIdx--];
+        TreeNode* root = new TreeNode(rootVal);
+
+        // Find the index of this root in the inorder array
+        int mid = inMap[rootVal];
+
+        // IMPORTANT: Build the RIGHT subtree first
+        // In postorder (Left -> Right -> Root), the node before Root is the Right child
+        root->right = build(postorder, mid + 1, right);
+        root->left = build(postorder, left, mid - 1);
+
+        return root;
+    }
+
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        postIdx = postorder.size() - 1;
+        
+        // Map each value to its index for O(1) lookup
+        for (int i = 0; i < inorder.size(); ++i) {
+            inMap[inorder[i]] = i;
+        }
+
+        return build(postorder, 0, inorder.size() - 1);
+    }
+};
