@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int minDepth(TreeNode* root) {
+        if (!root) return 0;
+        
+        int left = minDepth(root->left);
+        int right = minDepth(root->right);
+        
+        // If one child is NULL, we must take the path with the actual node
+        if (!root->left || !root->right) {
+            return 1 + max(left, right);
+        }
+        
+        // If both children exist, take the minimum of the two
+        return 1 + min(left, right);
+    }
+};
