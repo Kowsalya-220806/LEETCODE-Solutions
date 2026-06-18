@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        return validate(root, nullptr, nullptr);
+    }
+
+private:
+    bool validate(TreeNode* node, TreeNode* minNode, TreeNode* maxNode) {
+        if (!node) return true;
+
+        // Check if current node value violates the min/max constraints
+        if ((minNode && node->val <= minNode->val) || 
+            (maxNode && node->val >= maxNode->val)) {
+            return false;
+        }
+
+        // When moving left, the current node becomes the new maximum
+        // When moving right, the current node becomes the new minimum
+        return validate(node->left, minNode, node) && 
+               validate(node->right, node, maxNode);
+    }
+};
