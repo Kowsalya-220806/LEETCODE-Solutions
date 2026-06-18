@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> result;
+        vector<int> current;
+        // Sorting helps to prune the search tree early
+        sort(candidates.begin(), candidates.end());
+        backtrack(candidates, target, result, current, 0);
+        return result;
+    }
+
+private:
+    void backtrack(vector<int>& candidates, int target, vector<vector<int>>& result, vector<int>& current, int start) {
+        // Base case: target reached
+        if (target == 0) {
+            result.push_back(current);
+            return;
+        }
+
+        for (int i = start; i < candidates.size(); i++) {
+            // Pruning: if current candidate > remaining target, 
+            // no need to check further because candidates are sorted
+            if (candidates[i] > target) break;
+
+            current.push_back(candidates[i]);
+            // Re-use same index 'i' because the same number can be used multiple times
+            backtrack(candidates, target - candidates[i], result, current, i);
+            // Backtrack: remove the last element to try the next candidate
+            current.pop_back();
+        }
+    }
+};
