@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int max_sum = nums[0];
+        int current_sum = 0;
+        
+        for (int num : nums) {
+            // If current_sum is negative, it's hurting our total. 
+            // Reset it to 0 before adding the current number.
+            if (current_sum < 0) {
+                current_sum = 0;
+            }
+            current_sum += num;
+            max_sum = max(max_sum, current_sum);
+        }
+        
+        return max_sum;
+    }
+};
