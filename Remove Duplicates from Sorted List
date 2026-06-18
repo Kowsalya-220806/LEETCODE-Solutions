@@ -1,0 +1,26 @@
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        // If the list is empty or has only one node, no duplicates possible
+        if (!head) return nullptr;
+        
+        ListNode* current = head;
+        
+        // Traverse until the end of the list
+        while (current != nullptr && current->next != nullptr) {
+            // Check if the next node is a duplicate
+            if (current->val == current->next->val) {
+                ListNode* temp = current->next;
+                // Skip the duplicate node
+                current->next = current->next->next;
+                // Optional: manually delete the node to free memory
+                delete temp;
+            } else {
+                // Only move to the next node if no duplicate was found
+                current = current->next;
+            }
+        }
+        
+        return head;
+    }
+};
