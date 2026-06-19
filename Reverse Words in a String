@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        // 1. Clean up spaces in-place
+        int n = s.length();
+        int i = 0, j = 0;
+        
+        while (j < n) {
+            while (j < n && s[j] == ' ') j++; // Skip spaces
+            if (j < n && i > 0) s[i++] = ' '; // Add a single space between words
+            while (j < n && s[j] != ' ') s[i++] = s[j++]; // Copy word
+        }
+        s.erase(s.begin() + i, s.end()); // Trim the remaining characters
+
+        // 2. Reverse the whole string
+        reverse(s.begin(), s.end());
+
+        // 3. Reverse each word
+        int start = 0;
+        for (int end = 0; end <= s.length(); end++) {
+            if (end == s.length() || s[end] == ' ') {
+                reverse(s.begin() + start, s.begin() + end);
+                start = end + 1;
+            }
+        }
+
+        return s;
+    }
+};
