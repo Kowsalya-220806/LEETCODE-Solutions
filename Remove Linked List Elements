@@ -1,0 +1,24 @@
+class Solution {
+public:
+    ListNode* removeElements(ListNode* head, int val) {
+        // Create a dummy node that points to head
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        
+        ListNode* curr = dummy;
+        while (curr->next != nullptr) {
+            if (curr->next->val == val) {
+                // To prevent memory leaks, you'd delete the node here
+                ListNode* temp = curr->next;
+                curr->next = curr->next->next;
+                delete temp; 
+            } else {
+                curr = curr->next;
+            }
+        }
+        
+        ListNode* newHead = dummy->next;
+        delete dummy; // Clean up the dummy node
+        return newHead;
+    }
+};
