@@ -1,0 +1,28 @@
+#include <stack>
+
+class Solution {
+public:
+    int kthSmallest(TreeNode* root, int k) {
+        std::stack<TreeNode*> s;
+        TreeNode* curr = root;
+        
+        while (curr != nullptr || !s.empty()) {
+            // Reach the leftmost node of the current subtree
+            while (curr != nullptr) {
+                s.push(curr);
+                curr = curr->left;
+            }
+            
+            // Process the node
+            curr = s.top();
+            s.pop();
+            
+            if (--k == 0) return curr->val;
+            
+            // Move to the right subtree
+            curr = curr->right;
+        }
+        
+        return -1; // Should not reach here given constraints
+    }
+};
